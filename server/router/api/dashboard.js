@@ -6,7 +6,8 @@ const router = express.Router();
 mongoose.connect(
   "mongodb+srv://thafsil:test123456@thafsil-4zp3x.mongodb.net/Thafsil?retryWrites=true&w=majority",
   {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   }
 );
 
@@ -18,7 +19,7 @@ const postSchema = new mongoose.Schema({
 const PostModel = mongoose.model("PostModel", postSchema);
 
 //Get
-router.get("/", (req, res) => {
+router.get("/dashboard/get", (req, res) => {
   PostModel.find({}, (err, data) => {
     console.log("im in");
     res.send(data);
@@ -26,14 +27,17 @@ router.get("/", (req, res) => {
 });
 
 //post
-router.post("/", (req, res) => {
+router.post("/dashboard/post", (req, res) => {
   PostModel.create(
     {
-      name: req.body.name,
-      password: req.body.password
+      name: req.body.userName,
+      password: req.body.userPassword
     },
     (err, data) => {
-      res.send(data).status(200);
+      res.send({
+        name : data.name,
+        password : data.password
+      }).status(200);
     }
   );
 });
