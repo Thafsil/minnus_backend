@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const PostModel =require("../model/postModel");
 const router = express.Router();
 
 mongoose.connect(
@@ -11,20 +11,35 @@ mongoose.connect(
   }
 );
 
-const postSchema = new mongoose.Schema({
-  name: String,
-  password: String
-});
-
-const PostModel = mongoose.model("PostModel", postSchema);
-
 //Get
 router.get("/dashboard/get", (req, res) => {
   PostModel.find({}, (err, data) => {
-    console.log("im in");
     res.send(data);
   });
 });
+
+//login validation
+router.post("/dashboard/login/post", (req, res) => {
+  PostModel.findOne({
+    name: req.body.userName,
+    password: req.body.password
+  }, (err, data) => {
+    console.log(data);
+    if (err) {
+      res.status(500).send('internal error')
+    } else {
+      if (data != null) {
+        res.status(200).json({
+          message: "Success"
+        })
+      } else {
+        res.status(400).json({
+          err: "data not fount"
+        })
+      }
+    }
+  })
+})
 
 //post
 router.post("/dashboard/post", (req, res) => {
@@ -35,8 +50,8 @@ router.post("/dashboard/post", (req, res) => {
     },
     (err, data) => {
       res.send({
-        name : data.name,
-        password : data.password
+        name: data.name,
+        password: data.password
       }).status(200);
     }
   );

@@ -21,8 +21,10 @@ app.use(function(req, res, next) {
 });
 
 const get = require("./router/api/dashboard");
+const products = require("./router/api/products")
 
 app.use("/api", get);
+app.use("/api", products);
 
 const port = process.env.PORT || 3000;
 
