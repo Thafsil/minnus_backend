@@ -20,10 +20,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-const get = require("./router/api/dashboard");
+const auth = require("./router/api/auth/dashboard");
 const products = require("./router/api/products")
 
-app.use("/api", get);
+app.use("/api", auth);
 app.use("/api", products);
 
 const port = process.env.PORT || 3000;

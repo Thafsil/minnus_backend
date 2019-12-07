@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://thafsil:test123456@thafsil-4zp3x.mongodb.net/Thafsil?retryWrites=true&w=majority",
+  "jwtsecret": "jwtSecretToken"
+}
